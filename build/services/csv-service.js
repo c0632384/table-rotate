@@ -26,7 +26,7 @@ class CSVService {
     readRecord(path) {
         return new Promise((resolve, reject) => {
             this.parser = csv_parse_1.default.parse({
-                onRecord: this.onRecord.bind(this)
+                onRecord: this.onRecord.bind(this),
             });
             this.parser.on('readable', this.onReadable.bind(this));
             this.parser.on('end', resolve);
@@ -34,8 +34,7 @@ class CSVService {
                 this.onError(error);
                 reject();
             });
-            fs_1.default.createReadStream(path, { encoding: 'utf-8' })
-                .pipe(this.parser);
+            fs_1.default.createReadStream(path, { encoding: 'utf-8' }).pipe(this.parser);
         });
     }
     registerRecordListener(listener) {
@@ -47,7 +46,9 @@ class CSVService {
             throw Error(`CSVServiceClass.write - invalid number of columns, expected ${this.columns.length} but found ${values.length}`);
         }
         const rowsString = values
-            .map(value => typeof value === 'object' ? `"${JSON.stringify(value)}"`.replace(/,/gi, ', ') : value)
+            .map((value) => typeof value === 'object'
+            ? `"${JSON.stringify(value)}"`.replace(/,/gi, ', ')
+            : value)
             .join(this.delimiter);
         process_service_1.ProcessService.writeOutput(rowsString);
     }

@@ -7,7 +7,6 @@ const table_service_1 = require("./services/table-service");
     const targetFile = process_service_1.ProcessService.getArgument(0);
     if (!targetFile) {
         process_service_1.ProcessService.dispose();
-        ;
     }
     const csvInput = new csv_service_1.CSVService();
     const csvOutput = new csv_service_1.CSVService();
@@ -23,11 +22,7 @@ const table_service_1 = require("./services/table-service");
         else {
             result = [];
         }
-        csvOutput.writeRecord([
-            id,
-            result,
-            isRotatable
-        ]);
+        csvOutput.writeRecord([id, result, isRotatable]);
     });
     await csvInput.readRecord(targetFile);
     csvInput.dispose();
